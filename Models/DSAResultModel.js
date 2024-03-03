@@ -43,19 +43,6 @@ const resultSchema = new mongoose.Schema({
   ],
 });
 
-resultSchema.pre('findOneAndUpdate', async function (next) {
-  const { usn } = this._update.$push['Results'];
-
-  // Check if the usn already exists in the collection
-  const existingResult = await this.model.findOne({ 'Results.usn': usn });
-
-  if (existingResult) {
-    return next(new AppError('Result already submitted', 200));
-  }
-
-  next();
-});
-
 const DSAResult = mongoose.model('DSAResult', resultSchema);
 
 module.exports = DSAResult;

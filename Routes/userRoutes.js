@@ -5,6 +5,10 @@ const batchController = require('../Controller/batchController');
 
 const router = express.Router();
 
+router.route('/').get(authController.protect, function (req, res) {
+  res.status(200).json({ status: 'success' });
+});
+
 router.post('/signup', authController.signup, profileController.createProfile);
 
 router.post('/login', authController.login);

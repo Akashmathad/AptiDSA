@@ -7,6 +7,8 @@ const TestCases = require('../Models/testModel');
 const path = require('path');
 
 function compareOutput(test, output) {
+  console.log(test);
+  console.log(output);
   if (!test.testCases || !test.testCases.length) {
     throw new Error('Invalid test object or empty test array.');
   }
