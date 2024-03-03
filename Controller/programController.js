@@ -89,15 +89,12 @@ async function compileAndRun(mainFilePath, test, res) {
 				const javaProcess = spawn("java", ["-cp", classPath, "Main"]);
 
 				javaProcess.stdout.on("data", (data) => {
-					// const newData = data.toString().trim().split('\n');
-					// output.push(...newData);
-					// output = output.map((line) => line.replace(/\r?\n|\r/g, ''));
-					// result = compareOutput(test, output);
-					javaProcess.stdout.on("data", (data) => {
-						const newData = data.toString().trim().split("\n");
-						output.push(...newData.filter((line) => line.trim() !== "")); // Filter out empty lines
+					const newData = data.toString().trim().split('\n');
+					output.push(...newData);
+					output = output.map((line) => line.replace(/\r?\n|\r/g, ''));
+          output = output.filter((line) => line.trim() !== "")
 						result = compareOutput(test, output);
-					});
+				
 				});
 
 				javaProcess.stderr.on("data", (data) => {
