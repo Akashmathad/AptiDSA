@@ -251,28 +251,22 @@ exports.deleteResult = catchAsync(async (req, res, next) => {
 
 exports.updateAptitudeResult = catchAsync(async (req, res, next) => {
   const profile = await Profile.findOne({ usn: req.params.usn });
-  const resultCheck = await Result.findOne({
+  const resultCheck = await AptitudeResult.findOne({
     contestName: req.body.contestName,
   });
 
-  // const resultCheck = await AptitudeResult.findOne({
-  //   contestName: req.body.contestName,
-  // });
+  if (!profile) {
+    return next(new AppError('Profile not found', 404));
+  }
 
-  // if (!profile) {
-  //   return next(new AppError('Profile not found', 404));
-  // }
-
-  // if (
-  //   req.body.contestName === resultCheck.contestName &&
-  //   resultCheck.Results.some((document) => req.params.usn === document.usn)
-  // ) {
-  //   return res.status(200).json({
-  //     status: 'success',
-  //   });
-  // }
-
-  // const result = await Result.findOneAndUpdate(
+  if (
+    req.body.contestName === resultCheck.contestName &&
+    resultCheck.Results.some((document) => req.params.usn === document.usn)
+  ) {
+    return res.status(200).json({
+      status: 'success',
+    });
+  }
 
   const result = await AptitudeResult.findOneAndUpdate(
     {
@@ -305,8 +299,6 @@ exports.updateAptitudeResult = catchAsync(async (req, res, next) => {
 
 exports.updateDSAResult = catchAsync(async (req, res, next) => {
   const profile = await Profile.findOne({ usn: req.params.usn });
-
-  // const resultCheck = await Result.findOne({
   const resultCheck = await DSAResult.findOne({
     contestName: req.body.contestName,
   });
@@ -315,15 +307,15 @@ exports.updateDSAResult = catchAsync(async (req, res, next) => {
     return next(new AppError('Profile not found', 404));
   }
 
-  // if (
-  //   req.body.contestName === resultCheck.contestName &&
-  //   resultCheck.Results.some((document) => req.params.usn === document.usn)
-  // ) {
-  //   return res.status(200).json({
-  //     status: 'success',
-  //   });
-  // }
-  // const result = await Result.findOneAndUpdate(
+  if (
+    req.body.contestName === resultCheck.contestName &&
+    resultCheck.Results.some((document) => req.params.usn === document.usn)
+  ) {
+    return res.status(200).json({
+      status: 'success',
+    });
+  }
+
   const result = await DSAResult.findOneAndUpdate(
     {
       contestNumber: req.params.contestNumber,
